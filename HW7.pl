@@ -63,25 +63,25 @@ student(113, zoe, ece).
 
 /*1*/
 /*a*/
-person(SID, C, B, T) :- student(SID, N, L), enroll(SID, CRN), place(CRN, B, T), section(CRN, CN), course(CN, C, CREDITS).
+schedule(SID, C, B, T) :- student(SID, _, _), enroll(SID, CRN), place(CRN, B, T), section(CRN, CN), course(CN, C, _).
 /*schedule(SID, C, B, T) :- student(I, F, L)*/
 
 /*b*/
-schedule(SID, N, C) :- student(SID, N, L), enroll(SID, CRN), place(CRN, B, T), section(CRN, CN), course(CN, C, CREDITS).
+schedule(SID, N, C) :- student(SID, N, _), enroll(SID, CRN), place(CRN, _, _), section(CRN, CN), course(CN, C, _).
    
 /*c*/
-offer(CN, N, C, T) :- place(C, B, T), section(C, CN), course(CN, N, CREDITS).
+offer(CN, N, C, T) :- place(C, _, T), section(C, CN), course(CN, N, _).
 /*d*/
-conflict(SID, X, Y) :- enroll(SID, X), place(X, B, T1), enroll(SID, Y), place(Y, B, T2), T1\=T2.
+conflict(SID, X, Y) :- enroll(SID, X), enroll(SID, Y), place(X, _, T1), place(Y, _, T2), T1=:=T2, X\=Y.
 
 /*e*/
-meet(SID1, SID2) :- schedule(SID1, N, C), schedule(SID2, N, C), SID1\=SID2; schedule(SID1, N, C1), schedule(SID2, N, C2), C1\==C2 + 1, SID1\=SID2.
+meet(X, SID) :- enroll(X, C), enroll(SID, C), X\=SID; schedule(X, _, B, C1), schedule(SID, _, B, C2), (C1 + 1) =:= C2; schedule(X, _, B, C1), schedule(SID, _, B, C2), (C1 - 1) =:= C2.
 
 /*f*/
-roster(CRN, Sname) :- student(SID, Sname, M), enroll(SID, CRN).
+roster(CRN, Sname) :- student(SID, Sname, _), enroll(SID, CRN).
 
 /*g*/
-highCredits(Cname) :- course(Cnum, Cname, CREDITS), CREDITS > 3.
+highCredits(Cname) :- course(_, Cname, CREDITS), CREDITS > 3.
 
 /*2*/
 /*a*/
