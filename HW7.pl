@@ -61,6 +61,7 @@ student(175, amy, math).
 student(410, john, cs).
 student(113, zoe, ece).
 
+/*1*/
 /*a*/
 person(SID, C, B, T) :- student(SID, N, L), enroll(SID, CRN), place(CRN, B, T), section(CRN, CN), course(CN, C, CREDITS).
 /*schedule(SID, C, B, T) :- student(I, F, L)*/
@@ -74,6 +75,7 @@ offer(CN, N, C, T) :- place(C, B, T), section(C, CN), course(CN, N, CREDITS).
 conflict(SID, X, Y) :- enroll(SID, X), place(X, B, T1), enroll(SID, Y), place(Y, B, T2), T1\=T2.
 
 /*e*/
+meet(SID1, SID2) :- schedule(SID1, N, C), schedule(SID2, N, C), SID1\=SID2; schedule(SID1, N, C1), schedule(SID2, N, C2), C1\==C2 + 1, SID1\=SID2.
 
 /*f*/
 roster(CRN, Sname) :- student(SID, Sname, M), enroll(SID, CRN).
@@ -81,5 +83,7 @@ roster(CRN, Sname) :- student(SID, Sname, M), enroll(SID, CRN).
 /*g*/
 highCredits(Cname) :- course(Cnum, Cname, CREDITS), CREDITS > 3.
 
+/*2*/
+/*a*/
 
 
