@@ -85,5 +85,24 @@ highCredits(Cname) :- course(_, Cname, CREDITS), CREDITS > 3.
 
 /*2*/
 /*a*/
+rdup([],[]).
+rdup([A|L],M) :- L = [A|_], rdup(L,M).
+rdup([A|L],[A|M]) :- rdup(L,M).
+/*rdup([1,1,1,2,2,3,3,3,4,5,5,5,5,5,7], M).*/
 
+/*b*/
+flat(L, F) :- flat(L, [], F).
+flat([], F, F).
+flat([H|T], L, F) :-
+	flat(H, L1, F),
+	flat(T, L, L1).
+flat(H, F, [H|F]) :- \+ is_list(H).
+
+/*c*/
+project([], _, [], _).
+project(_, [], [], _).
+project([I|Is], [X|Xs], [X|Ls], P) :- I =:= P, project(Is, Xs, Ls, P+1).
+project(Is, [_|Xs], Ls, P) :- project(Is, Xs, Ls, P+1).
+project(Is, Xs, Ls) :- project(Is, Xs, Ls, 1).
+/*project([2,4], [a,b,c,d], L).*/
 
