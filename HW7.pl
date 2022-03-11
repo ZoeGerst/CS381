@@ -101,7 +101,7 @@ flat(H, F, [H|F]) :- \+ is_list(H).
 /*c*/
 project([], _, [], _).
 project(_, [], [], _).
-project([I|Is], [X|Xs], [X|Ls], P) :- I =:= P, project(Is, Xs, Ls, P+1).
+project([I|Is], [X|Xs], [X|Ls], P) :- I =:= P, project(Is, Xs, Ls, P+1),!.
 project(Is, [_|Xs], Ls, P) :- project(Is, Xs, Ls, P+1).
 project(Is, Xs, Ls) :- project(Is, Xs, Ls, 1).
 /*project([2,4], [a,b,c,d], L).*/
